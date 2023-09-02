@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class AddPartController {
+public class AddPartController extends Controller {
     @FXML
     private AnchorPane addPartAnchorPane;
     @FXML
@@ -21,12 +22,10 @@ public class AddPartController {
     Stage stage;
 
     public void cancelAddPart(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Inventory Manager");
-        stage.setResizable(false);
-        stage.setScene(scene);
+        String returnView = "main-view.fxml";
+        String returnTitle = "Inventory Manager";
+
+        cancelButton(event, returnView, returnTitle);
     }
 
 }

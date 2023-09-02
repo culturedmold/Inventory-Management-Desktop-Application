@@ -15,30 +15,21 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 
-public class MainController {
-    // main anchor pane
+public class MainController extends Controller {
     @FXML
     private AnchorPane mainPane;
-    // exit button
     @FXML
     private Button exitButton;
-    // add part button
     @FXML
     private Button addPartButton;
-    // modify part button
     @FXML
     private Button modifyPartButton;
-    // delete part button
     @FXML
     private Button deletePartButton;
-
-    // add product button
     @FXML
     private Button addProductButton;
-    // modify product button
     @FXML
     private Button modifyProductButton;
-    // delete product button
     @FXML
     private Button deleteProductButton;
 
@@ -47,32 +38,34 @@ public class MainController {
 
     @FXML
     public void openAddPartView(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("addpart-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Add Part");
-        stage.setScene(scene);
-        stage.show();
+        String view = "addpart-view.fxml";
+        String title = "Add Part";
+
+        openNewView(event, view, title);
     }
 
     @FXML
     public void openAddProductView(ActionEvent event) throws  IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("addproduct-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Add Product");
-        stage.setScene(scene);
-        stage.show();
+        String view = "addproduct-view.fxml";
+        String title = "Add Product";
+
+        openNewView(event, view, title);
     }
 
     @FXML
     public void openModifyProductView(ActionEvent event) throws  IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("modifyproduct-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Modify Product");
-        stage.setScene(scene);
-        stage.show();
+        String view = "modifyproduct-view.fxml";
+        String title = "Modify Product";
+
+        openNewView(event, view, title);
+    }
+
+    @FXML
+    public void openModifyPartView(ActionEvent event) throws IOException {
+        String view = "modifypart-view.fxml";
+        String title = "Modify Part";
+
+        openNewView(event, view, title);
     }
 
     // exit application method

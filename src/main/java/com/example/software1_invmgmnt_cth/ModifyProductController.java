@@ -12,17 +12,23 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class ModifyProductController {
+public class ModifyProductController extends Controller {
+    @FXML
+    private AnchorPane modifyProductAnchorPane;
     @FXML
     private Button cancelButton;
 
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setTitle("Inventory Manager");
-        stage.setResizable(false);
-        stage.setScene(scene);
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load());
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        stage.setTitle("Inventory Manager");
+//        stage.setResizable(false);
+//        stage.setScene(scene);
+        String returnView = "main-view.fxml";
+        String returnTitle = "Inventory Management";
+
+        cancelButton(event, returnView, returnTitle);
     }
 }

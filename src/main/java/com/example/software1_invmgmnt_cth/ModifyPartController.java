@@ -2,26 +2,21 @@ package com.example.software1_invmgmnt_cth;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class AddProductController extends Controller {
+public class ModifyPartController extends Controller {
     @FXML
-    private AnchorPane addProductAnchorPane;
+    private AnchorPane modifyPartAnchorPane;
     @FXML
     private Button cancelButton;
 
     @FXML
-    public void cancelAddProduct(ActionEvent event) throws IOException {
+    public void cancelModifyPart(ActionEvent event) throws IOException {
         String returnView = "main-view.fxml";
-        String returnTitle = "Inventory Manager";
+        String returnTitle = "Inventory Management";
 
         cancelButton(event, returnView, returnTitle);
     }
