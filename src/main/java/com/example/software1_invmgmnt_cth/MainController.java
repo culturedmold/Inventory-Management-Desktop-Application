@@ -65,6 +65,16 @@ public class MainController {
         stage.show();
     }
 
+    @FXML
+    public void openModifyProductView(ActionEvent event) throws  IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("modifyproduct-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Modify Product");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     // exit application method
     public void exitApplication(ActionEvent event) {
         stage = (Stage) mainPane.getScene().getWindow();

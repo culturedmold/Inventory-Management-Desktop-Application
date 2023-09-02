@@ -12,14 +12,12 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class AddProductController {
-    @FXML
-    private AnchorPane addProductAnchorPane;
+public class ModifyProductController {
     @FXML
     private Button cancelButton;
 
     @FXML
-    public void cancelAddProduct(ActionEvent event) throws IOException {
+    public void cancelModifyProduct(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

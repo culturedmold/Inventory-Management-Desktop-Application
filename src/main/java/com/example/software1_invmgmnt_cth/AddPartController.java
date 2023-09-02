@@ -24,6 +24,8 @@ public class AddPartController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setTitle("Inventory Manager");
+        stage.setResizable(false);
         stage.setScene(scene);
     }
 
