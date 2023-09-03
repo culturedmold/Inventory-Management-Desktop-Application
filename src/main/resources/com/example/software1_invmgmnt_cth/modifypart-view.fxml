@@ -22,7 +22,7 @@
                 </Label>
                 <HBox prefHeight="9.0" prefWidth="550.0">
                     <children>
-                        <RadioButton fx:id="inHouseButton" mnemonicParsing="false" onAction="#setPartType" text="In House">
+                        <RadioButton fx:id="inHouseButton" mnemonicParsing="false" onAction="#setPartType" selected="true" text="In House">
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>

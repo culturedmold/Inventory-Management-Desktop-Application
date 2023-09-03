@@ -29,16 +29,16 @@ public class ModifyProductController extends Controller {
     @FXML
     private Button cancelButton;
 
-    @FXML
-    public void setProductType(ActionEvent event) {
-        if (inHouseButton.isSelected()) {
-            companyOrMachineIDLabel.setText("Machine ID");
-            companyOrMachineIDTextField.setPromptText("Machine ID");
-        } else  {
-            companyOrMachineIDLabel.setText("Company");
-            companyOrMachineIDTextField.setPromptText("Company");
-        }
-    }
+//    @FXML
+//    public void setProductType(ActionEvent event) {
+//        if (inHouseButton.isSelected()) {
+//            companyOrMachineIDLabel.setText("Machine ID");
+//            companyOrMachineIDTextField.setPromptText("Machine ID");
+//        } else  {
+//            companyOrMachineIDLabel.setText("Company");
+//            companyOrMachineIDTextField.setPromptText("Company");
+//        }
+//    }
 
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {

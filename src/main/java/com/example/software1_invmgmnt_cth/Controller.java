@@ -14,7 +14,7 @@ public class Controller {
     public void openNewView(ActionEvent event, String view, String title) throws IOException {
         // View we want to open
         FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource(view));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // Set title for new view
