@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -21,12 +22,15 @@
             </Label>
             <HBox prefHeight="9.0" prefWidth="550.0">
                <children>
-                  <RadioButton mnemonicParsing="false" text="In House">
+                  <RadioButton fx:id="inHouseButton" mnemonicParsing="false" onAction="#setPartType" selected="true" text="In House">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="part_type" />
+                     </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Outsourced">
+                  <RadioButton fx:id="outsourcedButton" mnemonicParsing="false" onAction="#setPartType" text="Outsourced" toggleGroup="$part_type">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
@@ -111,12 +115,12 @@
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="5.0" prefWidth="550.0">
                <children>
-                  <Label prefWidth="65.0" text="Machine ID">
+                  <Label fx:id="companyOrMachineIDLabel" prefWidth="65.0" text="Machine ID">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField promptText="Machine ID" />
+                  <TextField fx:id="companyOrMachineIDTextField" promptText="Machine ID" />
                </children>
                <VBox.margin>
                   <Insets />
