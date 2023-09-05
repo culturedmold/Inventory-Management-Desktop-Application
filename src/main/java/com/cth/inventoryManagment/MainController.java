@@ -62,19 +62,31 @@ public class MainController extends Controller implements Initializable {
     // Stage for this view
     Stage stage;
 
-    // Product to modify
-    private static Product productToModify;
-    // Part to modify
-    private static Part partToModify;
+    // Product to modify/delete/etc.
+    private static Product selectedProduct;
+    // index of product to modify/delete/etc.
+    private static int selectedProductIndex;
+    // Part to modify/delete/etc.
+    private static Part selectedPart;
+    // Index of part to modify/delete/etc.
+    private static int selectedPartIndex;
 
-    // Get product to modify
-    public static Product getProductToModify() {
-        return productToModify;
+    // Get product to modify/delete/etc.
+    public static Product getSelectedProduct() {
+        return selectedProduct;
     }
-    // Get part to modify
-    public static Part getPartToModify() {
-        return partToModify;
+    // Get index of product to modify/delete/etc.
+    public static int getSelectedProductIndex() {
+        return selectedProductIndex;
     }
+    // Get part to modify/delete/etc.
+    public static Part getSelectedPart() {
+        return selectedPart;
+    }
+    // Get index of part to modify/delete/etc.
+    public static int getSelectedPartIndex() {
+        return selectedPartIndex;
+    };
 
     // Logic error: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
     // This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
@@ -100,6 +112,21 @@ public class MainController extends Controller implements Initializable {
 
     }
 
+    // Method to delete selectedPart
+    @FXML
+    public boolean deleteSelectedPart(ActionEvent event) {
+        selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
+
+        return Inventory.deletePart(selectedPart);
+    }
+    // Method to delete selectedProduct
+    @FXML
+    public boolean deleteSelectedProduct(ActionEvent event) {
+        selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
+
+        return Inventory.deleteProduct(selectedProduct);
+    }
+
     @FXML
     public void openAddPartView(ActionEvent event) throws IOException {
         String view = "addpart-view.fxml";
@@ -118,8 +145,9 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     public void openModifyProductView(ActionEvent event) throws  IOException {
-        productToModify = mainViewProductsTable.getSelectionModel().getSelectedItem();
-        if (productToModify == null) {
+        selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
+        selectedProductIndex = mainViewProductsTable.getSelectionModel().getSelectedIndex();
+        if (selectedProduct == null) {
             return;
         }
         String view = "modifyproduct-view.fxml";

@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +13,7 @@ import java.util.ResourceBundle;
 
 public class ModifyProductController extends Controller implements Initializable {
     private static Product selectedProduct;
+    private static int selectedProductIndex;
 
     // Anchor pane for modify product view
     @FXML
@@ -70,7 +70,11 @@ public class ModifyProductController extends Controller implements Initializable
     // Initialize the controller
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectedProduct = MainController.getProductToModify();
+        // Get product to modify
+        selectedProduct = MainController.getSelectedProduct();
+        // Get index of product to modify
+        selectedProductIndex = MainController.getSelectedProductIndex();
+
         // Initialize allParts table
         allPartsTable.setItems(Inventory.getAllParts());
         // Set column values for allParts table

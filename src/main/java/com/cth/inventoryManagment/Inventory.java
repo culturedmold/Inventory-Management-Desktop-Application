@@ -44,8 +44,13 @@ public class Inventory {
     // Update the selected product by index
 
     // Delete the selected part and return boolean
-
+    public static boolean deletePart(Part selectedPart) {
+        return allParts.remove(selectedPart);
+    }
     // Delete the selected product and return boolean
+    public static boolean deleteProduct(Product selectedProduct) {
+        return allProducts.remove(selectedProduct);
+    }
 
     // Method to get all parts from allParts list
     public static ObservableList<Part> getAllParts() {
