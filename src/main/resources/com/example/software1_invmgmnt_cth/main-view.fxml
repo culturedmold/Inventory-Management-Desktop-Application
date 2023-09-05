@@ -33,12 +33,12 @@
                   </TextField>
                </children>
             </HBox>
-            <TableView>
+            <TableView fx:id="mainViewPartsTable">
               <columns>
-                <TableColumn prefWidth="90.0" text="Part ID" />
-                <TableColumn prefWidth="218.0" text="Part Name" />
-                  <TableColumn prefWidth="128.0" text="Inventory Level" />
-                  <TableColumn prefWidth="173.0" text="Cost Per Unit" />
+                <TableColumn fx:id="colPartID" prefWidth="90.0" text="Part ID" />
+                <TableColumn fx:id="colPartName" prefWidth="218.0" text="Part Name" />
+                  <TableColumn fx:id="colPartInvLevel" prefWidth="128.0" text="Inventory Level" />
+                  <TableColumn fx:id="colPartCost" prefWidth="173.0" text="Cost Per Unit" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="560.0">
@@ -77,12 +77,12 @@
                   </TextField>
                </children>
             </HBox>
-            <TableView>
+            <TableView fx:id="mainViewProductsTable">
                <columns>
-                  <TableColumn prefWidth="90.0" text="Part ID" />
-                  <TableColumn prefWidth="218.0" text="Part Name" />
-                  <TableColumn prefWidth="128.0" text="Inventory Level" />
-                  <TableColumn prefWidth="173.0" text="Cost Per Unit" />
+                  <TableColumn fx:id="colProductID" prefWidth="90.0" text="Product ID" />
+                  <TableColumn fx:id="colProductName" prefWidth="218.0" text="Product Name" />
+                  <TableColumn fx:id="colProductInvLevel" prefWidth="128.0" text="Inventory Level" />
+                  <TableColumn fx:id="colProductCost" prefWidth="173.0" text="Cost Per Unit" />
                </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="42.0" prefWidth="560.0">
