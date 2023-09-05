@@ -42,6 +42,16 @@ public class MainApplication extends Application {
 
         Part Pick = new InHouse(partId, "Jazz Style Pick", 500, 1.99, 50, 1000, 44);
         Inventory.addPart(Pick);
+        partId = Inventory.incrementPartId();
+
+        Part TremoloBar = new Outsourced(partId, "Tremolo Bar", 35.98, 25, 5, 100, "Fender");
+        Inventory.addPart(TremoloBar);
+
+        // Set associated products
+        Stratocaster.addAssociatedPart(NickelStrings);
+        Stratocaster.addAssociatedPart(TremoloBar);
+        Telecaster.addAssociatedPart(NickelStrings);
+        LesPaul.addAssociatedPart(NickelStrings);
 
         launch();
     }

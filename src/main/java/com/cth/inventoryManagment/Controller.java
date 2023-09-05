@@ -9,8 +9,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// Defining Controller superclass to avoid duplicating too much code throughout the application. By having my controller
+// classes inherit from this superclass I can extend functionality without having to write the same method repeatedly.
 public class Controller {
-
     // Open a new view
     public void openNewView(ActionEvent event, String view, String title) throws IOException {
         // View we want to open
@@ -25,19 +26,20 @@ public class Controller {
     }
 
     // Cancel method
-    public void cancelButton(ActionEvent event, String returnView, String title) throws IOException {
+    public void returnToMain(ActionEvent event) throws IOException {
         // View we want to return to after cancelling operation
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(returnView));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         // Set title for return view
-        stage.setTitle(title);
+        stage.setTitle("Inventory Manager");
         stage.setResizable(false);
         stage.setScene(scene);
     }
 
-    public void exitApplication(ActionEvent event, Stage stage, AnchorPane anchorPane) {
+    // This method exits the application
+    public void exitApplication(Stage stage, AnchorPane anchorPane) {
         stage = (Stage) anchorPane.getScene().getWindow();
         System.out.println("Exit Application");
         stage.close();

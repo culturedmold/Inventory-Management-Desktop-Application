@@ -36,10 +36,7 @@ public class AddPartController extends Controller {
     }
 
     public void cancelAddPart(ActionEvent event) throws IOException {
-        String returnView = "main-view.fxml";
-        String returnTitle = "Inventory Manager";
-
-        cancelButton(event, returnView, returnTitle);
+        returnToMain(event);
     }
 
 }

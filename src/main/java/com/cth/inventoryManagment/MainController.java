@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainController extends Controller implements Initializable {
-
+    // Main anchor pane of our view
     @FXML
     private AnchorPane mainPane;
 
@@ -59,8 +59,22 @@ public class MainController extends Controller implements Initializable {
     @FXML
     private Button deleteProductButton;
 
-    // stage for this view
+    // Stage for this view
     Stage stage;
+
+    // Product to modify
+    private static Product productToModify;
+    // Part to modify
+    private static Part partToModify;
+
+    // Get product to modify
+    public static Product getProductToModify() {
+        return productToModify;
+    }
+    // Get part to modify
+    public static Part getPartToModify() {
+        return partToModify;
+    }
 
     // Logic error: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
     // This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
@@ -104,6 +118,10 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     public void openModifyProductView(ActionEvent event) throws  IOException {
+        productToModify = mainViewProductsTable.getSelectionModel().getSelectedItem();
+        if (productToModify == null) {
+            return;
+        }
         String view = "modifyproduct-view.fxml";
         String title = "Modify Product";
 
