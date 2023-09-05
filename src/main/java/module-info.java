@@ -3,7 +3,6 @@ module com.example.software1_invmgmnt_cth {
     requires javafx.fxml;
 
 
-    opens com.example.software1_invmgmnt_cth to javafx.fxml;
-    exports com.example.software1_invmgmnt_cth;
-//    exports Inventory to javafx.base;
+    opens com.cth.inventoryManagment to javafx.fxml;
+    exports com.cth.inventoryManagment;
 }

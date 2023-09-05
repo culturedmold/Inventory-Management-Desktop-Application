@@ -1,10 +1,7 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 /**
 * Supplied class Part.java 
  */
-
-import com.example.software1_invmgmnt_cth.InHouse;
-import com.example.software1_invmgmnt_cth.Outsourced;
 
 /**
  *

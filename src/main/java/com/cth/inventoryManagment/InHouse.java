@@ -1,4 +1,4 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 public class InHouse extends Part {
     static private int machineId;

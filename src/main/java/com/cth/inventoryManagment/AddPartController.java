@@ -1,18 +1,16 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ModifyPartController extends Controller {
+public class AddPartController extends Controller {
     @FXML
-    private AnchorPane modifyPartAnchorPane;
+    private AnchorPane addPartAnchorPane;
     @FXML
     private RadioButton inHouseButton;
     @FXML
@@ -24,6 +22,8 @@ public class ModifyPartController extends Controller {
     @FXML
     private Button cancelButton;
 
+    Stage stage;
+
     @FXML
     public void setPartType(ActionEvent event) {
         if (inHouseButton.isSelected()) {
@@ -34,11 +34,12 @@ public class ModifyPartController extends Controller {
             companyOrMachineIDTextField.setPromptText("Company");
         }
     }
-    @FXML
-    public void cancelModifyPart(ActionEvent event) throws IOException {
+
+    public void cancelAddPart(ActionEvent event) throws IOException {
         String returnView = "main-view.fxml";
-        String returnTitle = "Inventory Management";
+        String returnTitle = "Inventory Manager";
 
         cancelButton(event, returnView, returnTitle);
     }
+
 }

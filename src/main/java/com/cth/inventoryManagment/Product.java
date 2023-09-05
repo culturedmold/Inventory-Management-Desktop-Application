@@ -1,4 +1,4 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

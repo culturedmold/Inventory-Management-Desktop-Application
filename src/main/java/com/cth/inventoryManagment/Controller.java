@@ -1,4 +1,4 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

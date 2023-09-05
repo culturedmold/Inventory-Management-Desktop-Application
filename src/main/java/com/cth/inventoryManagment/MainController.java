@@ -1,21 +1,14 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,8 +62,11 @@ public class MainController extends Controller implements Initializable {
     // stage for this view
     Stage stage;
 
-    // Products table is being populated with the correct number of rows, but they are all duplicates. Not sure why.
-    // It's because properties were marked "static".
+    // Logic error: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
+    // This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
+    // addProduct methods were implemented, but only one was not working. After careful examination of the code, I had
+    // inadvertently marked all properties of the Product class with the "static" keyword, which was causing the issue
+    // by not allowing each instance of the class to have unique property values.
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize parts table
         mainViewPartsTable.setItems(Inventory.getAllParts());

@@ -1,4 +1,4 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 public class Outsourced extends Part {
     static private String companyName;

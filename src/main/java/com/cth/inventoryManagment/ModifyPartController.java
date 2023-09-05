@@ -1,20 +1,18 @@
-package com.example.software1_invmgmnt_cth;
+package com.cth.inventoryManagment;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.Node;
 
 import java.io.IOException;
 
-public class AddPartController extends Controller {
+public class ModifyPartController extends Controller {
     @FXML
-    private AnchorPane addPartAnchorPane;
+    private AnchorPane modifyPartAnchorPane;
     @FXML
     private RadioButton inHouseButton;
     @FXML
@@ -26,8 +24,6 @@ public class AddPartController extends Controller {
     @FXML
     private Button cancelButton;
 
-    Stage stage;
-
     @FXML
     public void setPartType(ActionEvent event) {
         if (inHouseButton.isSelected()) {
@@ -38,12 +34,11 @@ public class AddPartController extends Controller {
             companyOrMachineIDTextField.setPromptText("Company");
         }
     }
-
-    public void cancelAddPart(ActionEvent event) throws IOException {
+    @FXML
+    public void cancelModifyPart(ActionEvent event) throws IOException {
         String returnView = "main-view.fxml";
-        String returnTitle = "Inventory Manager";
+        String returnTitle = "Inventory Management";
 
         cancelButton(event, returnView, returnTitle);
     }
-
 }
