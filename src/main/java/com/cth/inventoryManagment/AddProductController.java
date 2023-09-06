@@ -47,9 +47,10 @@ public class AddProductController extends Controller {
         returnToMain(event);
     }
 
+    // FUTURE ENHANCEMENT: we don't need to send the user back to the main screen after saving a product. Keeping them in
+    // the add product view would allow a user to continue adding more parts without having to go through multiple steps.
     @FXML
     public void saveAddProduct(ActionEvent event) throws IOException {
-        try {
             int newProductId = Inventory.incrementProductId();
             String newProductName = productNameField.getText();
             int newProductInv = Integer.parseInt(productInvLevelField.getText());
@@ -68,14 +69,12 @@ public class AddProductController extends Controller {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Product added successfully!", ButtonType.OK);
                 alert.showAndWait();
 
-                productNameField.clear();
-                productInvLevelField.clear();
-                productMaxField.clear();
-                productCostField.clear();
-                productMinField.clear();
+//                productNameField.clear();
+//                productInvLevelField.clear();
+//                productMaxField.clear();
+//                productCostField.clear();
+//                productMinField.clear();
+                returnToMain(event);
             }
-        } catch (NumberFormatException e) {
-            return;
-        }
     }
 }

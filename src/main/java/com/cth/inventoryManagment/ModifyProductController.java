@@ -1,12 +1,13 @@
 package com.cth.inventoryManagment;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +15,7 @@ import java.util.ResourceBundle;
 
 public class ModifyProductController extends Controller implements Initializable {
     private static Product selectedProduct;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private static int selectedProductIndex;
 
     // Anchor pane for modify product view
@@ -22,17 +24,17 @@ public class ModifyProductController extends Controller implements Initializable
 
     // Field values to display existing product data for modification
     @FXML
-    private TextField prodIdField;
+    private TextField productIdField;
     @FXML
-    private TextField prodNameField;
+    private TextField productNameField;
     @FXML
-    private TextField prodInvLevelField;
+    private TextField productInvLevelField;
     @FXML
-    private TextField prodCostField;
+    private TextField productCostField;
     @FXML
-    private TextField prodMaxField;
+    private TextField productMaxField;
     @FXML
-    private TextField prodMinField;
+    private TextField productMinField;
 
     // All parts table
     @FXML
@@ -61,14 +63,44 @@ public class ModifyProductController extends Controller implements Initializable
     // Remove associated part from selectedProduct
     @FXML
     private Button removeAssociatedPartButton;
+    // Button to save the changes
+    @FXML
+    private Button saveModifyProductButton;
     // Button will cancel modify product and return to main screen
     @FXML
     private Button cancelButton;
 
+    // Method to save changes
     @FXML
-    public boolean removeAssociatedPart() {
+    public void saveModifyProductChanges(ActionEvent event) throws IOException {
+
+        int modifiedProductId = selectedProduct.getId();
+        String modifiedProductName = productNameField.getText();
+        int modifiedProductInv = Integer.parseInt(productInvLevelField.getText());
+        int modifiedProductMax = Integer.parseInt(productMaxField.getText());
+        int modifiedProductMin = Integer.parseInt(productMinField.getText());
+        double modifiedProductCost = Double.parseDouble(productCostField.getText());
+
+        Product modifiedProduct = new Product(modifiedProductId, modifiedProductName, modifiedProductCost, modifiedProductInv, modifiedProductMax, modifiedProductMin);
+
+        for (Part associatedPart:associatedParts) {
+            modifiedProduct.addAssociatedPart(associatedPart);
+        }
+
+        Inventory.updateProduct(modifiedProduct, selectedProductIndex);
+        returnToMain(event);
+
+    }
+
+    @FXML
+    public boolean removeAssociatedPart(ActionEvent event) {
         Part partToRemove = associatedPartsTable.getSelectionModel().getSelectedItem();
-        return selectedProduct.deleteAssociatedPart(partToRemove);
+        if (partToRemove == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part.", ButtonType.OK);
+            alert.showAndWait();
+            return false;
+        }
+        return associatedParts.remove(partToRemove);
     }
 
     // Cancel function for cancel button, needs to alert user and return to main view
@@ -77,9 +109,10 @@ public class ModifyProductController extends Controller implements Initializable
         returnToMain(event);
     }
 
-    // Runtime error: program was crashing when attempting to initialize modify product controller. This is because I
+    // RUNTIME ERROR: program was crashing when attempting to initialize modify product controller. This is because I
     // had neglected to account for the possibility that selectedProduct could be null. Altering the method to return in
-    // the case the selectedProduct was null solved this issue.
+    // the case the selectedProduct was null solved this issue, and I ultimately ended up implementing an alert to notify
+    // the user of the problem.
 
     // Initialize the controller
     @Override
@@ -106,11 +139,14 @@ public class ModifyProductController extends Controller implements Initializable
         colPartCost2.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Set values for modifiable fields
-        prodIdField.setText(Integer.toString(selectedProduct.getId()));
-        prodNameField.setText(selectedProduct.getName());
-        prodInvLevelField.setText(Integer.toString(selectedProduct.getStock()));
-        prodCostField.setText(Double.toString(selectedProduct.getPrice()));
-        prodMaxField.setText(Integer.toString(selectedProduct.getMax()));
-        prodMinField.setText(Integer.toString(selectedProduct.getMin()));
+        productIdField.setText(Integer.toString(selectedProduct.getId()));
+        productNameField.setText(selectedProduct.getName());
+        productInvLevelField.setText(Integer.toString(selectedProduct.getStock()));
+        productCostField.setText(Double.toString(selectedProduct.getPrice()));
+        productMaxField.setText(Integer.toString(selectedProduct.getMax()));
+        productMinField.setText(Integer.toString(selectedProduct.getMin()));
+
+        // Set associated parts to modify
+        associatedParts = selectedProduct.getAllAssociatedParts();
     }
 }

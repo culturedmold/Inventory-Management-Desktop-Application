@@ -42,7 +42,9 @@ public class Inventory {
     // Update the selected part by index
 
     // Update the selected product by index
-
+    public static void updateProduct(Product modifiedProduct, int index) {
+        Inventory.getAllProducts().set(index, modifiedProduct);
+    }
     // Delete the selected part and return boolean
     public static boolean deletePart(Part selectedPart) {
         return allParts.remove(selectedPart);

@@ -3,9 +3,7 @@ package com.cth.inventoryManagment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -88,7 +86,7 @@ public class MainController extends Controller implements Initializable {
         return selectedPartIndex;
     };
 
-    // Logic error: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
+    // LOGIC ERROR: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
     // This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
     // addProduct methods were implemented, but only one was not working. After careful examination of the code, I had
     // inadvertently marked all properties of the Product class with the "static" keyword, which was causing the issue
@@ -116,6 +114,10 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public boolean deleteSelectedPart(ActionEvent event) {
         selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No part selected.", ButtonType.CLOSE);
+            alert.showAndWait();
+        }
 
         return Inventory.deletePart(selectedPart);
     }
@@ -123,6 +125,16 @@ public class MainController extends Controller implements Initializable {
     @FXML
     public boolean deleteSelectedProduct(ActionEvent event) {
         selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No product selected.", ButtonType.CLOSE);
+            alert.showAndWait();
+            return false;
+        }
+        if (!selectedProduct.getAllAssociatedParts().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot delete product with associated parts.\nPlease remove associated parts and try again.", ButtonType.OK);
+            alert.showAndWait();
+            return false;
+        }
 
         return Inventory.deleteProduct(selectedProduct);
     }
