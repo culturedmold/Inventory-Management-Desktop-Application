@@ -52,7 +52,7 @@
                                             <Insets right="20.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <TextField prefWidth="160.0" promptText="Product Name" />
+                                    <TextField fx:id="productNameField" prefWidth="160.0" promptText="Product Name" />
                                 </children>
                                 <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -65,7 +65,7 @@
                                             <Insets right="20.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <TextField prefWidth="160.0" promptText="Inv" />
+                                    <TextField fx:id="productInvLevelField" prefWidth="160.0" promptText="Inv" />
                                 </children>
                                 <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -78,7 +78,7 @@
                                             <Insets right="20.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <TextField prefWidth="160.0" promptText="Cost" />
+                                    <TextField fx:id="productCostField" prefWidth="160.0" promptText="Cost" />
                                 </children>
                                 <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -91,12 +91,12 @@
                                             <Insets right="20.0" />
                                         </HBox.margin>
                                     </Label>
-                                    <TextField prefHeight="26.0" prefWidth="70.0" promptText="Max">
+                                    <TextField fx:id="productMaxField" prefHeight="26.0" prefWidth="70.0" promptText="Max">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </TextField>
-                                    <TextField prefHeight="26.0" prefWidth="70.0" promptText="Min">
+                                    <TextField fx:id="productMinField" prefHeight="26.0" prefWidth="70.0" promptText="Min">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
@@ -142,7 +142,7 @@
                                     <Button mnemonicParsing="false" text="Remove Associated Part" />
                                         <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="742.0">
                                             <children>
-                                                <Button defaultButton="true" mnemonicParsing="false" prefWidth="100.0" text="Save">
+                                                <Button fx:id="addProductSaveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveAddProduct" prefWidth="100.0" text="Save">
                                                     <HBox.margin>
                                                         <Insets bottom="10.0" top="10.0" />
                                                     </HBox.margin>

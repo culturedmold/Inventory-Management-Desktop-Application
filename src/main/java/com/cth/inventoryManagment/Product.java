@@ -47,7 +47,7 @@ public class Product {
         return this.id;
     }
     public String getName() {
-        return this.name;
+        return name;
     }
     public double getPrice() {
         return this.price;

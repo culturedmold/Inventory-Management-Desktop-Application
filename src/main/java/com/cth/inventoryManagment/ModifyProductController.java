@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,8 @@ public class ModifyProductController extends Controller implements Initializable
     private AnchorPane modifyProductAnchorPane;
 
     // Field values to display existing product data for modification
+    @FXML
+    private TextField prodIdField;
     @FXML
     private TextField prodNameField;
     @FXML
@@ -54,10 +57,21 @@ public class ModifyProductController extends Controller implements Initializable
     private TableColumn<Part, Integer> colInvLevel2;
     @FXML
     private TableColumn<Part, Double> colPartCost2;
+
+    // Remove associated part from selectedProduct
+    @FXML
+    private Button removeAssociatedPartButton;
+    // Button will cancel modify product and return to main screen
     @FXML
     private Button cancelButton;
 
-    // Cancel button, needs to alert user and return to main view
+    @FXML
+    public boolean removeAssociatedPart() {
+        Part partToRemove = associatedPartsTable.getSelectionModel().getSelectedItem();
+        return selectedProduct.deleteAssociatedPart(partToRemove);
+    }
+
+    // Cancel function for cancel button, needs to alert user and return to main view
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {
         returnToMain(event);
@@ -92,6 +106,7 @@ public class ModifyProductController extends Controller implements Initializable
         colPartCost2.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Set values for modifiable fields
+        prodIdField.setText(Integer.toString(selectedProduct.getId()));
         prodNameField.setText(selectedProduct.getName());
         prodInvLevelField.setText(Integer.toString(selectedProduct.getStock()));
         prodCostField.setText(Double.toString(selectedProduct.getPrice()));
