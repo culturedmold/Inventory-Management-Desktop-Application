@@ -1,23 +1,20 @@
 package com.cth.inventoryManagment;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AddProductController extends Controller {
-    // Stage for this view
-    Stage stage;
+public class AddProductController extends Controller implements Initializable {
+    ObservableList<Part> allParts = FXCollections.observableArrayList();
 
     // Fields to enter new product data
     @FXML
@@ -31,9 +28,17 @@ public class AddProductController extends Controller {
     @FXML
     private TextField productMinField;
 
-    // Anchor pane for this view
+    // All parts table to display our inventory
     @FXML
-    private AnchorPane addProductAnchorPane;
+    private TableView<Part> allPartsTable;
+    @FXML
+    private TableColumn<Part, Integer> colPartId1;
+    @FXML
+    private TableColumn<Part, String> colPartName1;
+    @FXML
+    private TableColumn<Part, Double> colPartCost1;
+    @FXML
+    private TableColumn<Part, Integer> colPartInvLevel1;
 
     // Cancel button will return to main view
     @FXML
@@ -58,23 +63,36 @@ public class AddProductController extends Controller {
             int newProductMin = Integer.parseInt(productMinField.getText());
             double newProductCost = Double.parseDouble(productCostField.getText());
 
-            if (newProductMax < newProductMin || newProductInv > newProductMax) {
+            if ((newProductInv > newProductMax) || (newProductMin >= newProductMax)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max.\nMin cannot be greater than max.", ButtonType.CLOSE);
                 alert.showAndWait();
+
             } else if (newProductName.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Product name cannot be empty", ButtonType.CLOSE);
                 alert.showAndWait();
+
             } else {
                 Inventory.addProduct(new Product(newProductId, newProductName, newProductCost, newProductInv, newProductMax, newProductMin));
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Product added successfully!", ButtonType.OK);
                 alert.showAndWait();
 
-//                productNameField.clear();
-//                productInvLevelField.clear();
-//                productMaxField.clear();
-//                productCostField.clear();
-//                productMinField.clear();
                 returnToMain(event);
             }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set all parts variable to display in our table
+        allParts = Inventory.getAllParts();
+
+        // Set the table
+        allPartsTable.setItems(allParts);
+
+        // Set table columns
+        colPartId1.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPartName1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colPartInvLevel1.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        colPartCost1.setCellValueFactory(new PropertyValueFactory<>("price"));
+
     }
 }

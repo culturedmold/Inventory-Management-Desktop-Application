@@ -11,10 +11,11 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ModifyProductController extends Controller implements Initializable {
-    private static Product selectedProduct;
+    private Product selectedProduct;
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private static int selectedProductIndex;
 
@@ -67,46 +68,90 @@ public class ModifyProductController extends Controller implements Initializable
     @FXML
     private Button saveModifyProductButton;
     // Button will cancel modify product and return to main screen
+    // Button to add an associated part
+    @FXML
+    private Button addAssociatedPartButton;
     @FXML
     private Button cancelButton;
 
     // Method to save changes
     @FXML
     public void saveModifyProductChanges(ActionEvent event) throws IOException {
+        // Try/catch block will prevent issues from occurring if the user enters invalid form data
+        try {
+            int modifiedProductId = selectedProduct.getId();
+            String modifiedProductName = productNameField.getText();
+            int modifiedProductInv = Integer.parseInt(productInvLevelField.getText());
+            int modifiedProductMax = Integer.parseInt(productMaxField.getText());
+            int modifiedProductMin = Integer.parseInt(productMinField.getText());
+            double modifiedProductCost = Double.parseDouble(productCostField.getText());
 
-        int modifiedProductId = selectedProduct.getId();
-        String modifiedProductName = productNameField.getText();
-        int modifiedProductInv = Integer.parseInt(productInvLevelField.getText());
-        int modifiedProductMax = Integer.parseInt(productMaxField.getText());
-        int modifiedProductMin = Integer.parseInt(productMinField.getText());
-        double modifiedProductCost = Double.parseDouble(productCostField.getText());
+            if ((modifiedProductInv > modifiedProductMax) || (modifiedProductMin >= modifiedProductMax)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max.\nMin cannot be greater than max.\n", ButtonType.CLOSE);
+                alert.showAndWait();
+            } else if (modifiedProductName.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Product name cannot be empty", ButtonType.CLOSE);
+                alert.showAndWait();
+            } else {
+                Product modifiedProduct = new Product(modifiedProductId, modifiedProductName, modifiedProductCost, modifiedProductInv, modifiedProductMin, modifiedProductMax);
 
-        Product modifiedProduct = new Product(modifiedProductId, modifiedProductName, modifiedProductCost, modifiedProductInv, modifiedProductMax, modifiedProductMin);
+                for (Part associatedPart : associatedParts) {
+                    modifiedProduct.addAssociatedPart(associatedPart);
+                }
 
-        for (Part associatedPart:associatedParts) {
-            modifiedProduct.addAssociatedPart(associatedPart);
+                Inventory.updateProduct(modifiedProduct, selectedProductIndex);
+                returnToMain(event);
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "There was an error trying to save your modifications due to invalid values entered into text field(s).\nPlease try again.", ButtonType.CLOSE);
+            alert.showAndWait();
+            System.out.println("Invalid values entered.");
+            System.out.println("Exception: " + e);
         }
-
-        Inventory.updateProduct(modifiedProduct, selectedProductIndex);
-        returnToMain(event);
-
     }
 
     @FXML
-    public boolean removeAssociatedPart(ActionEvent event) {
+    public void removeAssociatedPart(ActionEvent event) {
         Part partToRemove = associatedPartsTable.getSelectionModel().getSelectedItem();
         if (partToRemove == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part.", ButtonType.OK);
             alert.showAndWait();
+        }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this associated part?");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            associatedParts.remove(partToRemove);
+        }
+    }
+
+    @FXML
+    public boolean addAssociatedPart(ActionEvent event) {
+        Part partToAdd = allPartsTable.getSelectionModel().getSelectedItem();
+        if (partToAdd == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part.", ButtonType.OK);
+            alert.showAndWait();
             return false;
         }
-        return associatedParts.remove(partToRemove);
+        for (Part part : associatedParts) {
+            if (part.getId() == partToAdd.getId()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "The selected part is already associated with this product.", ButtonType.OK);
+                alert.showAndWait();
+                return false;
+            }
+        }
+        return associatedParts.add(partToAdd);
     }
+
+
 
     // Cancel function for cancel button, needs to alert user and return to main view
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {
-        returnToMain(event);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel? Your changes will not be saved.");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            returnToMain(event);
+        }
     }
 
     // RUNTIME ERROR: program was crashing when attempting to initialize modify product controller. This is because I
@@ -130,8 +175,13 @@ public class ModifyProductController extends Controller implements Initializable
         colInvLevel1.setCellValueFactory(new PropertyValueFactory<>("stock"));
         colPartCost1.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        // Set associated parts to modify
+        for (Part part:selectedProduct.getAllAssociatedParts()) {
+            associatedParts.add(part);
+        }
+
         // Initialize associatedParts table
-        associatedPartsTable.setItems(selectedProduct.getAllAssociatedParts());
+        associatedPartsTable.setItems(associatedParts);
         // Set column values for associatedParts table
         colPartID2.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartName2.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -145,8 +195,5 @@ public class ModifyProductController extends Controller implements Initializable
         productCostField.setText(Double.toString(selectedProduct.getPrice()));
         productMaxField.setText(Integer.toString(selectedProduct.getMax()));
         productMinField.setText(Integer.toString(selectedProduct.getMin()));
-
-        // Set associated parts to modify
-        associatedParts = selectedProduct.getAllAssociatedParts();
     }
 }

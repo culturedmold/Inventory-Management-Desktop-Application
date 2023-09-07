@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController extends Controller implements Initializable {
@@ -112,31 +113,37 @@ public class MainController extends Controller implements Initializable {
 
     // Method to delete selectedPart
     @FXML
-    public boolean deleteSelectedPart(ActionEvent event) {
+    public void deleteSelectedPart(ActionEvent event) {
         selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct == null) {
+        if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No part selected.", ButtonType.CLOSE);
             alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?\nThis action cannot be undone.");
+            Optional<ButtonType> confirm = alert.showAndWait();
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+                Inventory.deletePart(selectedPart);
+            }
         }
-
-        return Inventory.deletePart(selectedPart);
     }
     // Method to delete selectedProduct
     @FXML
-    public boolean deleteSelectedProduct(ActionEvent event) {
+    public void deleteSelectedProduct(ActionEvent event) {
         selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
+
         if (selectedProduct == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No product selected.", ButtonType.CLOSE);
             alert.showAndWait();
-            return false;
-        }
-        if (!selectedProduct.getAllAssociatedParts().isEmpty()) {
+        } else if (!selectedProduct.getAllAssociatedParts().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot delete product with associated parts.\nPlease remove associated parts and try again.", ButtonType.OK);
             alert.showAndWait();
-            return false;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?\nThis action cannot be undone.");
+            Optional<ButtonType> confirm = alert.showAndWait();
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+                Inventory.deleteProduct(selectedProduct);
+            }
         }
-
-        return Inventory.deleteProduct(selectedProduct);
     }
 
     @FXML
@@ -160,6 +167,8 @@ public class MainController extends Controller implements Initializable {
         selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
         selectedProductIndex = mainViewProductsTable.getSelectionModel().getSelectedIndex();
         if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a product to modify, and try again.", ButtonType.OK);
+            alert.showAndWait();
             return;
         }
         String view = "modifyproduct-view.fxml";
