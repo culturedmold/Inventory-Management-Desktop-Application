@@ -13,89 +13,170 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for our main view. Contains methods and properties required to navigate to other views and delete parts or products.
+ */
 public class MainController extends Controller implements Initializable {
-    // Main anchor pane of our view
+    /**
+     * Main anchor pane for our view
+     */
     @FXML
     private AnchorPane mainPane;
 
-    // Parts table
+    /**
+     * Parts table to display parts in inventory
+     */
     @FXML
     private TableView<Part> mainViewPartsTable;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colPartID;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, String> colPartName;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colPartInvLevel;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Double> colPartCost;
 
-    // Products table
+    /**
+     * Table to hold all products in inventory
+     */
     @FXML
     private TableView<Product> mainViewProductsTable;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Product, Integer> colProductID;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Product, String> colProductName;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Product, Integer> colProductInvLevel;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Product, Double> colProductCost;
 
-    // View Buttons
+    /**
+     * UI element
+     */
     @FXML
     private Button exitButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button addPartButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button modifyPartButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button deletePartButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button addProductButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button modifyProductButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button deleteProductButton;
 
-    // Stage for this view
+    /**
+     * Stage for this view
+     */
     Stage stage;
 
-    // Product to modify/delete/etc.
+    /**
+     * Product to delete/modify/etc.
+     */
     private static Product selectedProduct;
-    // index of product to modify/delete/etc.
+    /**
+     * Index of product to delete/modify/etc.
+     */
     private static int selectedProductIndex;
-    // Part to modify/delete/etc.
+    /**
+     * Part to delete/modify/etc.
+     */
     private static Part selectedPart;
-    // Index of part to modify/delete/etc.
+    /**
+     * Index of part to delete/modify/etc.
+     */
     private static int selectedPartIndex;
 
-    // Get product to modify/delete/etc.
+    /**
+     * Method to get the selected product
+     * @return - returns the selected product
+     */
     public static Product getSelectedProduct() {
         return selectedProduct;
     }
-    // Get index of product to modify/delete/etc.
+
+    /**
+     * Method to get the index of the selected product
+     * @return - returns index as integer
+     */
     public static int getSelectedProductIndex() {
         return selectedProductIndex;
     }
-    // Get part to modify/delete/etc.
+
+    /**
+     * Method to get the selected part
+     * @return - returns the selected part
+     */
     public static Part getSelectedPart() {
         return selectedPart;
     }
-    // Get index of part to modify/delete/etc.
+
+    /**
+     * Method to get the index of the selected part
+     * @return - returns index as integer
+     */
     public static int getSelectedPartIndex() {
         return selectedPartIndex;
     }
 
-
-
-    /** LOGIC ERROR: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
+    /**
+     * Initialize the view
+     *
+     * LOGIC ERROR: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
      * This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
      * addProduct methods were implemented, but only one was not working. After careful examination of the code, I had
      * inadvertently marked all properties of the Product class with the "static" keyword, which was causing the issue
      * by not allowing each instance of the class to have unique property values.
+     *
+     * @param url - required parameter
+     * @param resourceBundle - required parameter
      */
-
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize parts table
         mainViewPartsTable.setItems(Inventory.getAllParts());
@@ -115,7 +196,10 @@ public class MainController extends Controller implements Initializable {
 
     }
 
-    // Method to delete selectedPart
+    /**
+     * Method to delete the selected part
+     * @param event - button click or UI event
+     */
     @FXML
     public void deleteSelectedPart(ActionEvent event) {
         selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
@@ -142,7 +226,7 @@ public class MainController extends Controller implements Initializable {
      * Method to delete the selected product.
      * This method will display an error message if no product is selected or if the product has associated parts that have not been removed,.
      * User will be asked to confirm their choice to delete the product before the action is carried out.
-     * @param event - our button click
+     * @param event - button click or UI event
      */
     @FXML
     public void deleteSelectedProduct(ActionEvent event) {
@@ -170,6 +254,11 @@ public class MainController extends Controller implements Initializable {
         }
     }
 
+    /**
+     * Method to open add part view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void openAddPartView(ActionEvent event) throws IOException {
         String view = "addpart-view.fxml";
@@ -178,6 +267,11 @@ public class MainController extends Controller implements Initializable {
         openNewView(event, view, title);
     }
 
+    /**
+     * Method to open add product view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void openAddProductView(ActionEvent event) throws  IOException {
         String view = "addproduct-view.fxml";
@@ -186,6 +280,11 @@ public class MainController extends Controller implements Initializable {
         openNewView(event, view, title);
     }
 
+    /**
+     * Method to open modify product view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void openModifyProductView(ActionEvent event) throws  IOException {
         selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
@@ -201,6 +300,11 @@ public class MainController extends Controller implements Initializable {
         openNewView(event, view, title);
     }
 
+    /**
+     * Method to open the modify part view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void openModifyPartView(ActionEvent event) throws IOException {
         selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
@@ -217,7 +321,10 @@ public class MainController extends Controller implements Initializable {
         openNewView(event, view, title);
     }
 
-    // exit application method
+    /**
+     * Function to exit the application
+     * @param event - button click or UI event
+     */
     public void exitApplication(ActionEvent event) {
         stage = (Stage) mainPane.getScene().getWindow();
         System.out.println("Exit Application");

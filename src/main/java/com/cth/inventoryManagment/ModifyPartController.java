@@ -8,11 +8,21 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the modify part view. Contains methods and properties necessary for modifying or updating a part in inventory.
+ * @author Tyler Hampton (Cory)
+ */
 public class ModifyPartController extends Controller implements Initializable {
-    // Selected part to modify
+    /**
+     * Selected part to modify
+     */
     private Part selectedPart;
+    /**
+     * Index of selected part
+     */
     private int selectedPartIndex;
 
     @FXML
@@ -52,9 +62,15 @@ public class ModifyPartController extends Controller implements Initializable {
             companyOrMachineIDTextField.setPromptText("Company");
         }
     }
+
+    /**
+     * Method to cancel and return to main view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void cancelModifyPart(ActionEvent event) throws IOException {
-        returnToMain(event);
+        cancelAndReturn(event);
     }
 
     /**

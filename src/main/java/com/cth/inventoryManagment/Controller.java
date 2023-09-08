@@ -4,12 +4,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
- /**
+/**
   * Defining Controller superclass to avoid duplicating too much code throughout the application. By having my controller classes inherit from this superclass I can extend functionality without having to write the same method repeatedly.
   * @author Tyler Hampton (Cory)
   */
@@ -31,6 +34,19 @@ public class Controller {
         stage.setTitle(title);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Method to cancel and return to main view
+     * @param event
+     * @throws IOException
+     */
+    public void cancelAndReturn(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel? Your changes will not be saved.");
+        Optional<ButtonType> confirm = alert.showAndWait();
+        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            returnToMain(event);
+        }
     }
 
      /**

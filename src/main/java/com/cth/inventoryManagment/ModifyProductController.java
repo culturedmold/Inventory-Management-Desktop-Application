@@ -213,7 +213,7 @@ public class ModifyProductController extends Controller implements Initializable
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this associated part?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            return associatedParts.remove(partToRemove);
+            associatedParts.remove(partToRemove);
         }
         return true;
     }
@@ -242,14 +242,14 @@ public class ModifyProductController extends Controller implements Initializable
         return associatedParts.add(partToAdd);
     }
 
-    // Cancel function for cancel button, needs to alert user and return to main view
+    /**
+     * Method to cancel modify product and return to main view
+     * @param event - button click or UI event
+     * @throws IOException
+     */
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to cancel? Your changes will not be saved.");
-        Optional<ButtonType> confirm = alert.showAndWait();
-        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            returnToMain(event);
-        }
+        cancelAndReturn(event);
     }
 
     /**

@@ -7,29 +7,70 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 
+/**
+ * Controller for add part view. Contains methods and properties required for adding a new part to inventory.
+ *
+ * @author Tyler Hampton (Cory)
+ */
 public class AddPartController extends Controller {
+    /**
+     * UI element
+     */
     @FXML
     private AnchorPane addPartAnchorPane;
+    /**
+     * UI element
+     */
     @FXML
     private RadioButton inHouseButton;
+    /**
+     * UI element
+     */
     @FXML
     private RadioButton outsourcedButton;
+    /**
+     * UI element
+     */
     @FXML
     private Label companyOrMachineIDLabel;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartIDField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartNameField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartInvField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartCostField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartMaxField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField addPartMinField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField companyOrMachineIDField;
+    /**
+     * UI element
+     */
     @FXML
     private Button addPartCancelButton;
 
@@ -115,6 +156,6 @@ public class AddPartController extends Controller {
      * @throws IOException
      */
     public void cancelAddPart(ActionEvent event) throws IOException {
-        returnToMain(event);
+        cancelAndReturn(event);
     }
 }

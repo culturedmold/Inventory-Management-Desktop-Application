@@ -144,13 +144,15 @@
                                  </font>
                               </Label>
                               <Region prefHeight="0.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                              <Button alignment="CENTER" mnemonicParsing="false" prefWidth="100.0" text="Add" />
+                              <Button fx:id="addAssociatedPartButton" alignment="CENTER" mnemonicParsing="false" onAction="#addAssociatedPart" prefWidth="100.0" text="Add" />
                            </children>
                         </HBox>
-                        <TableView prefHeight="178.0" prefWidth="484.0">
+                        <TableView fx:id="associatedPartsTable" prefHeight="178.0" prefWidth="484.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
+                            <TableColumn fx:id="colPartId2" prefWidth="75.0" text="Part ID" />
+                            <TableColumn fx:id="colPartName2" prefWidth="139.0" text="Part Name" />
+                              <TableColumn fx:id="colPartInvLevel2" prefWidth="114.0" text="Part Inv" />
+                              <TableColumn fx:id="colPartCost2" prefWidth="154.5" text="Part Cost" />
                           </columns>
                         </TableView>
                         <HBox>
@@ -160,7 +162,7 @@
                            <children>
                               <VBox alignment="CENTER_RIGHT">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Remove Associated Part" />
+                                    <Button fx:id="removeAssociatedPartButton" mnemonicParsing="false" onAction="#removeAssociatedPart" text="Remove Associated Part" />
                                         <HBox alignment="CENTER_RIGHT" prefHeight="0.0" prefWidth="742.0">
                                             <children>
                                                 <Button fx:id="addProductSaveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveAddProduct" prefWidth="100.0" text="Save">

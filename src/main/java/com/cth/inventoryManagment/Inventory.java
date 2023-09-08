@@ -73,8 +73,6 @@ public class Inventory {
 
     // Lookup products by name
 
-    // Update the selected part by index
-
     /**
      * Method to update a product at a specified index
      * @param modifiedProduct - the product we are sending to update at the specific index
@@ -88,7 +86,7 @@ public class Inventory {
      * Method to update part
      * This method will be used in our ModifyPartController to update a part with new/altered properties
      *
-     * LOGIC ERROR: Initially when modifiying parts/products, I was seeing changes reflect even if the user hadn't hit "Save" on the form. This is because the data is static data stored in Inventory.
+     * LOGIC ERROR: Initially when modifying parts/products, I was seeing changes reflect even if the user hadn't hit "Save" on the form. This is because the data is static data stored in Inventory.
      * To solve this, I created temporary variables in my controllers to house the form data that would only be passed into the relevant update/delete/add methods when appropriate conditions were met.
      *
      * @param index - index of allParts in Inventory that we are updating
