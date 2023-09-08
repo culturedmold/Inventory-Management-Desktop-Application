@@ -14,67 +14,148 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Modify product controller contains logic, variables, and initialized UI elements for our modify product view.
+ * @author Tyler Hampton (Cory)
+ */
 public class ModifyProductController extends Controller implements Initializable {
+    /**
+     * Selected product comes from MainController
+     */
     private Product selectedProduct;
+    /**
+     * Parts associated with selectedProduct
+     */
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    /**
+     * Index of selected product that we will pass into Inventory.updateProduct() method when "Save" button is pressed by the user
+     */
     private static int selectedProductIndex;
 
-    // Anchor pane for modify product view
+    /**
+     * UI element
+     */
     @FXML
     private AnchorPane modifyProductAnchorPane;
-
-    // Field values to display existing product data for modification
+    /**
+     * UI element
+     */
     @FXML
     private TextField productIdField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField productNameField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField productInvLevelField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField productCostField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField productMaxField;
+    /**
+     * UI element
+     */
     @FXML
     private TextField productMinField;
 
-    // All parts table
+    /** All parts in inventory table
+     *
+     */
     @FXML
     private TableView<Part> allPartsTable;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colPartID1;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, String> colPartName1;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colInvLevel1;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Double> colPartCost1;
 
-    // Associated parts table
+    /**
+     * Associated parts table
+     */
     @FXML
     private TableView<Part> associatedPartsTable;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colPartID2;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, String> colPartName2;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Integer> colInvLevel2;
+    /**
+     * UI element
+     */
     @FXML
     private TableColumn<Part, Double> colPartCost2;
 
-    // Remove associated part from selectedProduct
+    /**
+     * UI element
+     */
     @FXML
     private Button removeAssociatedPartButton;
-    // Button to save the changes
+    /**
+     * UI element
+     */
     @FXML
     private Button saveModifyProductButton;
-    // Button will cancel modify product and return to main screen
-    // Button to add an associated part
+    /**
+     * UI element
+     */
     @FXML
     private Button addAssociatedPartButton;
+    /**
+     * UI element
+     */
     @FXML
     private Button cancelButton;
 
-    // Method to save changes
+    /**
+     * Method to save changes. The try/catch block will prevent invalid data from being entered into fields and logic
+     * implemented will keep min/max/inv levels appropriate.
+     *
+     * The product modifications will only be saved if the user confirms the changes via an alert/dialog box.
+     *
+     * LOGICAL ERROR: Initially I was altering the static variable we were getting as the selectedProduct from the MainController when this controller was initialized.
+     * This caused an issue where the changes were being saved even if the user did not confirm their changes. To correct this, I am
+     * using a local variable in this method to create a new instance of the Product class, and then passing it into the Inventory.updateProduct() method
+     * to change the index of the selectedProduct. This prevents the changes from being applied to the product in inventory
+     * in the even the user does not click "Save."
+     *
+     * @param event - button click or other UI event
+     * @throws IOException
+     */
     @FXML
     public void saveModifyProductChanges(ActionEvent event) throws IOException {
         // Try/catch block will prevent issues from occurring if the user enters invalid form data
@@ -86,12 +167,14 @@ public class ModifyProductController extends Controller implements Initializable
             int modifiedProductMin = Integer.parseInt(productMinField.getText());
             double modifiedProductCost = Double.parseDouble(productCostField.getText());
 
-            if ((modifiedProductInv > modifiedProductMax) || (modifiedProductMin >= modifiedProductMax)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max.\nMin cannot be greater than max.\n", ButtonType.CLOSE);
+            if ((modifiedProductInv > modifiedProductMax) || (modifiedProductMin >= modifiedProductMax) || (modifiedProductMin > modifiedProductInv)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max or less than min.\nMin cannot be greater than max.\n", ButtonType.CLOSE);
                 alert.showAndWait();
+
             } else if (modifiedProductName.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Product name cannot be empty", ButtonType.CLOSE);
                 alert.showAndWait();
+
             } else {
                 Product modifiedProduct = new Product(modifiedProductId, modifiedProductName, modifiedProductCost, modifiedProductInv, modifiedProductMin, modifiedProductMax);
 
@@ -100,30 +183,47 @@ public class ModifyProductController extends Controller implements Initializable
                 }
 
                 Inventory.updateProduct(modifiedProduct, selectedProductIndex);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Your changes have been saved.", ButtonType.CLOSE);
+                alert.showAndWait();
                 returnToMain(event);
             }
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "There was an error trying to save your modifications due to invalid values entered into text field(s).\nPlease try again.", ButtonType.CLOSE);
             alert.showAndWait();
+
             System.out.println("Invalid values entered.");
             System.out.println("Exception: " + e);
         }
     }
 
+    /**
+     * Remove an associated part
+     * @param event - button click or UI event
+     * @return - returns boolean: true if successfully removed, false otherwise
+     */
     @FXML
-    public void removeAssociatedPart(ActionEvent event) {
+    public boolean removeAssociatedPart(ActionEvent event) {
         Part partToRemove = associatedPartsTable.getSelectionModel().getSelectedItem();
         if (partToRemove == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part.", ButtonType.OK);
             alert.showAndWait();
+            return false;
         }
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove this associated part?");
         Optional<ButtonType> confirm = alert.showAndWait();
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            associatedParts.remove(partToRemove);
+            return associatedParts.remove(partToRemove);
         }
+        return true;
     }
 
+    /**
+     * Add an associated part
+     *
+     * @param event - button click or UI event
+     * @return - returns true if part is successfully added, false otherwise
+     */
     @FXML
     public boolean addAssociatedPart(ActionEvent event) {
         Part partToAdd = allPartsTable.getSelectionModel().getSelectedItem();
@@ -142,8 +242,6 @@ public class ModifyProductController extends Controller implements Initializable
         return associatedParts.add(partToAdd);
     }
 
-
-
     // Cancel function for cancel button, needs to alert user and return to main view
     @FXML
     public void cancelModifyProduct(ActionEvent event) throws IOException {
@@ -154,12 +252,17 @@ public class ModifyProductController extends Controller implements Initializable
         }
     }
 
-    // RUNTIME ERROR: program was crashing when attempting to initialize modify product controller. This is because I
-    // had neglected to account for the possibility that selectedProduct could be null. Altering the method to return in
-    // the case the selectedProduct was null solved this issue, and I ultimately ended up implementing an alert to notify
-    // the user of the problem.
-
-    // Initialize the controller
+    /**
+     * Initialize the controller
+     *
+     * RUNTIME ERROR: program was crashing when attempting to initialize modify product controller. This is because I
+     * had neglected to account for the possibility that selectedProduct could be null.
+     * Altering the method to return it the case the selectedProduct was null solved this issue, and I ultimately ended up implementing an alert to notify
+     * the user of the problem.
+     *
+     * @param url - required parameter for initializer
+     * @param resourceBundle - required parameter for initializer
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Get product to modify
@@ -176,9 +279,7 @@ public class ModifyProductController extends Controller implements Initializable
         colPartCost1.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Set associated parts to modify
-        for (Part part:selectedProduct.getAllAssociatedParts()) {
-            associatedParts.add(part);
-        }
+        associatedParts.addAll(selectedProduct.getAllAssociatedParts());
 
         // Initialize associatedParts table
         associatedPartsTable.setItems(associatedParts);

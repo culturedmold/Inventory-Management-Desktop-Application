@@ -85,13 +85,17 @@ public class MainController extends Controller implements Initializable {
     // Get index of part to modify/delete/etc.
     public static int getSelectedPartIndex() {
         return selectedPartIndex;
-    };
+    }
 
-    // LOGIC ERROR: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
-    // This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
-    // addProduct methods were implemented, but only one was not working. After careful examination of the code, I had
-    // inadvertently marked all properties of the Product class with the "static" keyword, which was causing the issue
-    // by not allowing each instance of the class to have unique property values.
+
+
+    /** LOGIC ERROR: initializing the mainViewProductsTable with the sample data led to all rows being duplicate.
+     * This was fairly difficult to resolve as everything appeared to be identical between the way the addPart and
+     * addProduct methods were implemented, but only one was not working. After careful examination of the code, I had
+     * inadvertently marked all properties of the Product class with the "static" keyword, which was causing the issue
+     * by not allowing each instance of the class to have unique property values.
+     */
+
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize parts table
         mainViewPartsTable.setItems(Inventory.getAllParts());
@@ -122,11 +126,24 @@ public class MainController extends Controller implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?\nThis action cannot be undone.");
             Optional<ButtonType> confirm = alert.showAndWait();
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-                Inventory.deletePart(selectedPart);
+                boolean deletedResult = Inventory.deletePart(selectedPart);
+                if (deletedResult) {
+                    Alert finalAlert = new Alert(Alert.AlertType.INFORMATION, "Part has been deleted.");
+                    finalAlert.showAndWait();
+                } else {
+                    Alert failedAlert = new Alert(Alert.AlertType.ERROR, "There was a problem trying to delete the selected part. Please try again.");
+                    failedAlert.showAndWait();
+                }
             }
         }
     }
-    // Method to delete selectedProduct
+
+    /**
+     * Method to delete the selected product.
+     * This method will display an error message if no product is selected or if the product has associated parts that have not been removed,.
+     * User will be asked to confirm their choice to delete the product before the action is carried out.
+     * @param event - our button click
+     */
     @FXML
     public void deleteSelectedProduct(ActionEvent event) {
         selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
@@ -141,7 +158,14 @@ public class MainController extends Controller implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this part?\nThis action cannot be undone.");
             Optional<ButtonType> confirm = alert.showAndWait();
             if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-                Inventory.deleteProduct(selectedProduct);
+                boolean deletedResult = Inventory.deleteProduct(selectedProduct);
+                if (deletedResult) {
+                    Alert finalAlert = new Alert(Alert.AlertType.INFORMATION, "Product has been deleted.");
+                    finalAlert.showAndWait();
+                } else {
+                    Alert failedAlert = new Alert(Alert.AlertType.ERROR, "There was a problem trying to delete the selected product. Please try again.");
+                    failedAlert.showAndWait();
+                }
             }
         }
     }
@@ -179,6 +203,14 @@ public class MainController extends Controller implements Initializable {
 
     @FXML
     public void openModifyPartView(ActionEvent event) throws IOException {
+        selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
+        selectedPartIndex = mainViewPartsTable.getSelectionModel().getSelectedIndex();
+        if (selectedPart == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part to modify, and try again.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
         String view = "modifypart-view.fxml";
         String title = "Modify Part";
 

@@ -18,15 +18,17 @@ public class AddProductController extends Controller implements Initializable {
 
     // Fields to enter new product data
     @FXML
-    private TextField productNameField;
+    private TextField addProductIdField;
     @FXML
-    private TextField productInvLevelField;
+    private TextField addProductNameField;
     @FXML
-    private TextField productCostField;
+    private TextField addProductInvLevelField;
     @FXML
-    private TextField productMaxField;
+    private TextField addProductCostField;
     @FXML
-    private TextField productMinField;
+    private TextField addProductMaxField;
+    @FXML
+    private TextField addProductMinField;
 
     // All parts table to display our inventory
     @FXML
@@ -52,19 +54,21 @@ public class AddProductController extends Controller implements Initializable {
         returnToMain(event);
     }
 
-    // FUTURE ENHANCEMENT: we don't need to send the user back to the main screen after saving a product. Keeping them in
-    // the add product view would allow a user to continue adding more parts without having to go through multiple steps.
+    /**
+     * FUTURE ENHANCEMENT: we don't need to send the user back to the main screen after saving a product. Keeping them in
+     * the add product view would allow a user to continue adding more parts without having to go through multiple steps.
+     */
     @FXML
     public void saveAddProduct(ActionEvent event) throws IOException {
             int newProductId = Inventory.incrementProductId();
-            String newProductName = productNameField.getText();
-            int newProductInv = Integer.parseInt(productInvLevelField.getText());
-            int newProductMax = Integer.parseInt(productMaxField.getText());
-            int newProductMin = Integer.parseInt(productMinField.getText());
-            double newProductCost = Double.parseDouble(productCostField.getText());
+            String newProductName = addProductNameField.getText();
+            int newProductInv = Integer.parseInt(addProductInvLevelField.getText());
+            int newProductMax = Integer.parseInt(addProductMaxField.getText());
+            int newProductMin = Integer.parseInt(addProductMinField.getText());
+            double newProductCost = Double.parseDouble(addProductCostField.getText());
 
-            if ((newProductInv > newProductMax) || (newProductMin >= newProductMax)) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max.\nMin cannot be greater than max.", ButtonType.CLOSE);
+            if ((newProductInv > newProductMax) || (newProductMin >= newProductMax) || (newProductMin > newProductInv)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Check inventory level and max/min.\nInventory cannot be greater than max or less than min.\nMin cannot be greater than max.", ButtonType.CLOSE);
                 alert.showAndWait();
 
             } else if (newProductName.isEmpty()) {

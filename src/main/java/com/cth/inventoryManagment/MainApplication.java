@@ -7,7 +7,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Main function to serve as entry point of our application.
+ * We are initializing some sample data in our main function to provide functionality for our application.
+ *
+ * @author Tyler Hampton (Cory)
+ */
 public class MainApplication extends Application {
+    /**
+     * Initialize our main view
+     * @param stage - stage for our main view
+     * @throws IOException
+     */
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
@@ -18,12 +29,24 @@ public class MainApplication extends Application {
         stage.show();
     }
 
+    /**
+     * Main function
+     * @param args - args for main function
+     */
     public static void main(String[] args) {
 
+        /**
+         * Product ID for our test data
+         */
         int productId = Inventory.incrementProductId();
+        /**
+         * Part ID for our test data
+         */
         int partId = Inventory.incrementPartId();
 
-        // Load sample products
+        /**
+         * Loading sample data and incrementing partId/productId as appropriate
+         */
         Product Stratocaster = new Product(productId, "Stratocaster", 1099.99, 10, 1, 15);
         Inventory.addProduct(Stratocaster);
         productId = Inventory.incrementProductId();
@@ -47,7 +70,9 @@ public class MainApplication extends Application {
         Part TremoloBar = new Outsourced(partId, "Tremolo Bar", 35.98, 25, 5, 100, "Fender");
         Inventory.addPart(TremoloBar);
 
-        // Set associated products
+        /**
+         * Setting associated parts to our products
+         */
         Stratocaster.addAssociatedPart(NickelStrings);
         Stratocaster.addAssociatedPart(TremoloBar);
         Telecaster.addAssociatedPart(NickelStrings);

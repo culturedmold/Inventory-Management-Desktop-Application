@@ -9,10 +9,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-// Defining Controller superclass to avoid duplicating too much code throughout the application. By having my controller
-// classes inherit from this superclass I can extend functionality without having to write the same method repeatedly.
+ /**
+  * Defining Controller superclass to avoid duplicating too much code throughout the application. By having my controller classes inherit from this superclass I can extend functionality without having to write the same method repeatedly.
+  * @author Tyler Hampton (Cory)
+  */
 public class Controller {
-    // Open a new view
+     /**
+      * This method opens a new view
+      * @param event - button click or other UI event
+      * @param view - view where we will go
+      * @param title - new view title
+      * @throws IOException
+      */
     public void openNewView(ActionEvent event, String view, String title) throws IOException {
         // View we want to open
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(view));
@@ -25,7 +33,11 @@ public class Controller {
         stage.show();
     }
 
-    // Cancel method
+     /**
+      * Return to main view
+      * @param event - button click or other UI event
+      * @throws IOException
+      */
     public void returnToMain(ActionEvent event) throws IOException {
         // View we want to return to after cancelling operation
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
@@ -38,7 +50,11 @@ public class Controller {
         stage.setScene(scene);
     }
 
-    // This method exits the application
+     /**
+      * Method to exit the application
+      * @param stage - the stage of the current view we will be closing
+      * @param anchorPane - anchor pane of the current view we will be closing
+      */
     public void exitApplication(Stage stage, AnchorPane anchorPane) {
         stage = (Stage) anchorPane.getScene().getWindow();
         System.out.println("Exit Application");
