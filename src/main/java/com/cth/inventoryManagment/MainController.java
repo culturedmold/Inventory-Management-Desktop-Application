@@ -1,10 +1,13 @@
 package com.cth.inventoryManagment;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -24,10 +27,21 @@ public class MainController extends Controller implements Initializable {
     private AnchorPane mainPane;
 
     /**
+     * Search field for parts
+     */
+    @FXML
+    private TextField partsSearchField;
+    /**
+     * Search field for products
+     */
+    @FXML
+    private TextField productsSearchField;
+
+    /**
      * Parts table to display parts in inventory
      */
     @FXML
-    private TableView<Part> mainViewPartsTable;
+    private TableView<Part> allPartsTable;
     /**
      * UI element
      */
@@ -53,7 +67,7 @@ public class MainController extends Controller implements Initializable {
      * Table to hold all products in inventory
      */
     @FXML
-    private TableView<Product> mainViewProductsTable;
+    private TableView<Product> allProductsTable;
     /**
      * UI element
      */
@@ -179,7 +193,7 @@ public class MainController extends Controller implements Initializable {
      */
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize parts table
-        mainViewPartsTable.setItems(Inventory.getAllParts());
+        allPartsTable.setItems(Inventory.getAllParts());
         // Set column values
         colPartID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -187,7 +201,7 @@ public class MainController extends Controller implements Initializable {
         colPartCost.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Initialize products table
-        mainViewProductsTable.setItems(Inventory.getAllProducts());
+        allProductsTable.setItems(Inventory.getAllProducts());
         // Set column values
         colProductID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colProductName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -197,12 +211,51 @@ public class MainController extends Controller implements Initializable {
     }
 
     /**
+     * Searches parts and updates the allPartsTable with the results. If there are no results, a dialogue box is shown to the user that there are no matching products. User can search by ID or part name.
+     * @param event
+     */
+    @FXML
+    public void searchParts(KeyEvent event) {
+        String searchEntry = partsSearchField.getText();
+        ObservableList<Part> results = FXCollections.observableArrayList();
+        for (Part part:Inventory.getAllParts()) {
+            if ((part.getName().contains(searchEntry)) || (Integer.toString(part.getId()).contains(searchEntry))) {
+                results.add(part);
+                allPartsTable.setItems(results);
+            }
+        }
+        if (results.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No products found");
+            alert.showAndWait();
+            partsSearchField.clear();
+        }
+    }
+
+    @FXML
+    public void searchProducts(KeyEvent event) {
+        String searchEntry = productsSearchField.getText();
+        ObservableList<Product> results = FXCollections.observableArrayList();
+        for (Product product:Inventory.getAllProducts()) {
+            if ((product.getName().contains(searchEntry)) || (Integer.toString(product.getId()).contains(searchEntry))) {
+                results.add(product);
+                allProductsTable.setItems(results);
+            }
+        }
+        if (results.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No products found");
+            alert.showAndWait();
+            productsSearchField.clear();
+            //allPartsTable.refresh();
+        }
+    }
+
+    /**
      * Method to delete the selected part
      * @param event - button click or UI event
      */
     @FXML
     public void deleteSelectedPart(ActionEvent event) {
-        selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
+        selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
         if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No part selected.", ButtonType.CLOSE);
             alert.showAndWait();
@@ -230,7 +283,7 @@ public class MainController extends Controller implements Initializable {
      */
     @FXML
     public void deleteSelectedProduct(ActionEvent event) {
-        selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
+        selectedProduct = allProductsTable.getSelectionModel().getSelectedItem();
 
         if (selectedProduct == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No product selected.", ButtonType.CLOSE);
@@ -287,8 +340,8 @@ public class MainController extends Controller implements Initializable {
      */
     @FXML
     public void openModifyProductView(ActionEvent event) throws  IOException {
-        selectedProduct = mainViewProductsTable.getSelectionModel().getSelectedItem();
-        selectedProductIndex = mainViewProductsTable.getSelectionModel().getSelectedIndex();
+        selectedProduct = allProductsTable.getSelectionModel().getSelectedItem();
+        selectedProductIndex = allProductsTable.getSelectionModel().getSelectedIndex();
         if (selectedProduct == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a product to modify, and try again.", ButtonType.OK);
             alert.showAndWait();
@@ -307,8 +360,8 @@ public class MainController extends Controller implements Initializable {
      */
     @FXML
     public void openModifyPartView(ActionEvent event) throws IOException {
-        selectedPart = mainViewPartsTable.getSelectionModel().getSelectedItem();
-        selectedPartIndex = mainViewPartsTable.getSelectionModel().getSelectedIndex();
+        selectedPart = allPartsTable.getSelectionModel().getSelectedItem();
+        selectedPartIndex = allPartsTable.getSelectionModel().getSelectedIndex();
         if (selectedPart == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a part to modify, and try again.", ButtonType.OK);
             alert.showAndWait();

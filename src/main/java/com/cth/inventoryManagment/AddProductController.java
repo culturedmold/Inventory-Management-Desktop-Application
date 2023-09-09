@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +27,12 @@ public class AddProductController extends Controller implements Initializable {
      * Associated parts for the product to be added
      */
     ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+
+    /**
+     * Text field for searching parts in inventory
+     */
+    @FXML
+    private TextField partsSearchField;
 
     /**
      * UI element
@@ -229,6 +236,23 @@ public class AddProductController extends Controller implements Initializable {
             associatedParts.remove(partToRemove);
         }
         return true;
+    }
+
+    @FXML
+    public void searchParts(KeyEvent event) {
+        String searchEntry = partsSearchField.getText();
+        ObservableList<Part> results = FXCollections.observableArrayList();
+        for (Part part:Inventory.getAllParts()) {
+            if ((part.getName().contains(searchEntry)) || (Integer.toString(part.getId()).contains(searchEntry))) {
+                results.add(part);
+                allPartsTable.setItems(results);
+            }
+        }
+        if (results.size() == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No products found");
+            alert.showAndWait();
+            partsSearchField.clear();
+        }
     }
 
     /**

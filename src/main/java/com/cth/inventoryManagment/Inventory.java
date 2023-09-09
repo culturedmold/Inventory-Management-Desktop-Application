@@ -2,6 +2,8 @@ package com.cth.inventoryManagment;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 /**
  * Inventory class contains all parts and products in inventory, as well as methods to get parts, get products, update/delete parts or products, and search parts or products
@@ -65,13 +67,63 @@ public class Inventory {
         allProducts.add(newProduct);
     }
 
-    // Lookup parts by ID
+    /**
+     * Lookup part by part ID
+     * @param PartId - the ID of the part we want to find
+     * @return - returns a part with matching ID. If no part is found, method returns null.
+     */
+    public static Part lookupPart(int PartId) {
+        for (Part part:Inventory.getAllParts()) {
+            if (part.getId() == PartId) {
+                return part;
+            }
+        }
+        return null;
+    }
 
-    // Lookup products by ID
+    /**
+     * Lookup product by part ID
+     * @param ProductId - the ID of the product we want to find
+     * @return - returns a product with matching ID. If no product is found, method returns null.
+     */
+    public static Product lookupProduct(int ProductId) {
+        for (Product product:Inventory.getAllProducts()) {
+            if (product.getId() == ProductId) {
+                return product;
+            }
+        }
+        return null;
+    }
 
-    // Lookup parts by name
+    /**
+     * Method to look up parts by name. Returns an observable list of parts with names containing the string argument.
+     * @param search - the name of the part we want to find
+     * @return - returns an observable list of parts with names that match the string argument/parameter.
+     */
+    public static ObservableList<Part> lookupPart(String search) {
+        ObservableList<Part> results = FXCollections.observableArrayList();
+        for (Part part : Inventory.getAllParts()) {
+            if (part.getName().contains(search)) {
+                results.add(part);
+            }
+        }
+        return results;
+    }
 
-    // Lookup products by name
+    /**
+     * Method to look up products by name. Returns an observable list of products with names containing the string argument.
+     * @param search - the name of the product we want to find
+     * @return - returns an observable list of products with names that match the string argument/parameter.
+     */
+    public static ObservableList<Product> lookupProduct(String search) {
+        ObservableList<Product> results = FXCollections.observableArrayList();
+        for (Product product : Inventory.getAllProducts()) {
+            if (product.getName().contains(search)) {
+                results.add(product);
+            }
+        }
+        return results;
+    }
 
     /**
      * Method to update a product at a specified index

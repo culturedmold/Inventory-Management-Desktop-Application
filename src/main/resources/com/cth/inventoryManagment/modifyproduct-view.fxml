@@ -121,7 +121,7 @@
                                  </padding>
                               </Label>
                               <Region prefHeight="26.0" prefWidth="155.0" HBox.hgrow="ALWAYS" />
-                              <TextField maxWidth="200.0" prefWidth="200.0" promptText="Search Part Name or ID" />
+                              <TextField fx:id="partsSearchField" maxWidth="200.0" onKeyPressed="#searchParts" onKeyReleased="#searchParts" prefWidth="200.0" promptText="Search Part Name or ID" />
                            </children>
                         </HBox>
                                 <TableView fx:id="allPartsTable" prefHeight="197.0" prefWidth="484.0">
