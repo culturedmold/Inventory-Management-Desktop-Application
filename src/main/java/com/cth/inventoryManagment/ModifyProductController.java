@@ -204,6 +204,10 @@ public class ModifyProductController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Search for parts in inventory by ID or name. If no part is found, user is alerted via dialogue box and search field is cleared.
+     * @param event - key pressed or released
+     */
     @FXML
     public void searchParts(KeyEvent event) {
         String searchEntry = partsSearchField.getText();

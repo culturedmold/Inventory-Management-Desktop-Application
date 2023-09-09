@@ -1,7 +1,10 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagment; /**
+* Supplied class Part.java 
+ */
+
 /**
- * Supplied class Part.java
- * @author Tyler Hampton (Cory)
+ *
+ * @author Place Your Name Here
  */
 public abstract class Part {
     private int id;
