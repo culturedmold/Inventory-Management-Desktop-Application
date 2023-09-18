@@ -1,4 +1,4 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +56,7 @@ public class Controller {
       */
     public void returnToMain(ActionEvent event) throws IOException {
         // View we want to return to after cancelling operation
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

@@ -1,5 +1,8 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement;
 
+import com.cth.inventoryManagement.model.Inventory;
+import com.cth.inventoryManagement.model.Part;
+import com.cth.inventoryManagement.model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

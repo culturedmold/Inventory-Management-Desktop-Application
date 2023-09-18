@@ -1,5 +1,8 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement;
 
+import com.cth.inventoryManagement.model.InHouse;
+import com.cth.inventoryManagement.model.Inventory;
+import com.cth.inventoryManagement.model.Outsourced;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -153,7 +156,7 @@ public class AddPartController extends Controller {
      * This method will show an alert to the user and require confirmation before cancelling and returning to main view
      *
      * @param event - button click or other UI event
-     * @throws IOException
+     * @throws IOException - exception handling
      */
     public void cancelAddPart(ActionEvent event) throws IOException {
         cancelAndReturn(event);

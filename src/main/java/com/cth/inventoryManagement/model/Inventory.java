@@ -1,9 +1,7 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
 /**
  * Inventory class contains all parts and products in inventory, as well as methods to get parts, get products, update/delete parts or products, and search parts or products

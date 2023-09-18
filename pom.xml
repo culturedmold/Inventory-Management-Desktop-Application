@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.software1_invmgmnt_cth/com.cth.inventoryManagment.MainApplication
+                                com.example.software1_invmgmnt_cth/com.cth.inventoryManagement.MainApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

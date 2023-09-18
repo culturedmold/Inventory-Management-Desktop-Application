@@ -1,4 +1,4 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +46,7 @@ public class Product {
      * @param min - minimum acceptable stock level of the product
      * @param max - maximum acceptable stock level of the product
      */
-    Product(int id, String name, double price, int stock, int min, int max) {
+    public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;
         this.price = price;

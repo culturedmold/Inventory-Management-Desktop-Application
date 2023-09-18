@@ -1,5 +1,8 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement;
 
+import com.cth.inventoryManagement.model.Inventory;
+import com.cth.inventoryManagement.model.Part;
+import com.cth.inventoryManagement.model.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -314,7 +317,7 @@ public class MainController extends Controller implements Initializable {
      */
     @FXML
     public void openAddPartView(ActionEvent event) throws IOException {
-        String view = "addpart-view.fxml";
+        String view = "views/addpart-view.fxml";
         String title = "Add Part";
 
         openNewView(event, view, title);
@@ -327,7 +330,7 @@ public class MainController extends Controller implements Initializable {
      */
     @FXML
     public void openAddProductView(ActionEvent event) throws  IOException {
-        String view = "addproduct-view.fxml";
+        String view = "views/addproduct-view.fxml";
         String title = "Add Product";
 
         openNewView(event, view, title);
@@ -347,7 +350,7 @@ public class MainController extends Controller implements Initializable {
             alert.showAndWait();
             return;
         }
-        String view = "modifyproduct-view.fxml";
+        String view = "views/modifyproduct-view.fxml";
         String title = "Modify Product";
 
         openNewView(event, view, title);
@@ -368,7 +371,7 @@ public class MainController extends Controller implements Initializable {
             return;
         }
 
-        String view = "modifypart-view.fxml";
+        String view = "views/modifypart-view.fxml";
         String title = "Modify Part";
 
         openNewView(event, view, title);

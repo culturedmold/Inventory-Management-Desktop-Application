@@ -1,5 +1,6 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement;
 
+import com.cth.inventoryManagement.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +22,7 @@ public class MainApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         stage.setTitle("Inventory Manager");

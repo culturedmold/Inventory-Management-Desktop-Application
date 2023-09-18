@@ -1,4 +1,4 @@
-package com.cth.inventoryManagment;
+package com.cth.inventoryManagement.model;
 
 /**
  * This class is for Outsourced Parts that are stored in inventory. The class extends functionality of abstract class Part.
