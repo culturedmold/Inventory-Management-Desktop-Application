@@ -1,4 +1,4 @@
-# InventoryManagementTool
+# Inventory Management Tool
 
 ## Overview
 This project was primarily an exercise in Object Oriented Programming principles. The program makes extensive use of and demonstrates compentency in class abstraction, inheritance, and polymorphism. The program also demonstrates compentency in exception handling, MVC architecture, basic data structures, and UX/UI design. Extensive documentation has also been provided in the form of Javadoc files. 
